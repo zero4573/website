@@ -1,0 +1,27 @@
+{
+  "name": "ato-website",
+  "version": "0.0.0",
+  "description": "Website for Andy To",
+  "author": "Andy To",
+  "license": "UNLICENSED",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zero4573/website.git"
+  },
+  "main": "build.js",
+  "scripts": {
+    "start": "node build.js"
+  },
+  "devDependencies": {
+    "jstransformer-markdown": "^1.2.1",
+    "jstransformer-nunjucks": "^0.5.0",
+    "metalsmith": "^2.3.0",
+    "metalsmith-excludes": "^1.0.0",
+    "metalsmith-if": "^0.1.1",
+    "metalsmith-in-place": "^4.2.0",
+    "metalsmith-permalinks": "^0.5.0",
+    "metalsmith-ignore": "^0.1.2",
+    "bulma": "^0.7.1"
+  }
+}

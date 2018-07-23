@@ -1,0 +1,15 @@
+---
+title: This is a variable, defined in the file's frontmatter
+---
+{% extends "landing.njk" %}
+
+<h1>{{ title }}</h1>
+<p>Some text here.</p>
+
+{% block left %}
+This is the left side!
+{% endblock %}
+
+{% block right %}
+This is the right side!
+{% endblock %}
