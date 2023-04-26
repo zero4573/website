@@ -19,17 +19,9 @@ The following are a list of requirments to build/manage this project:
 Setup
 -----
 
-This project's environment can be setup through nvm+npm, run the following commands:
+This project's environment can be setup through asdf+npm, run the following commands:
 
 ```bash
-$ nvm use
-$ npm install
+asdf install
+npm install
 ```
-
-**Note:** if `nvm use` fails, then an error message will show up prompting you to install the correct version this project requires, along with the command to do so
-
-TODO
-----
-
- * Wait for NodeJS 8.12.0 to come out so that npm v5.7+ can be incorporated into node, this brings the "npm ci" command to npm, which will actually make use of the package-lock.json
-
