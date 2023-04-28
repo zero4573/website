@@ -23,7 +23,7 @@ async function submitCCToken() {
     token: {
       name: cardHolderFullName.value,
       code: tokenizedCard.value,
-      completed: true,
+      complete: true,
     }
   }
 
