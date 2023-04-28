@@ -1,27 +1,36 @@
-My Personal Website
--------------------
+# Nuxt 3 Minimal Starter
 
-Built and setup through github pages, [this setup is described here](https://medium.com/zendesk-engineering/how-to-create-a-website-like-freshswift-net-using-hugo-travis-ci-and-github-pages-67be6f480298)
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-I mainly went this route because I've been avoiding ruby (and thus Jekyll) for as long as possible.  I may pick it up in the future, but for the moment, I've not found a good reason to explicitly use it.
+## Setup
 
-As this is a static site, I've elected to use one of the many static site generators out there.  Also, as the site will already include javascript, I might as well double down and use a NodeJS static site generator.
-
-One of the most famous and flexible generators at the time of this writing was "Metal Smith" so thats what I will be using.
-
-Requirements
-------------
-
-The following are a list of requirments to build/manage this project:
-
- * [Node Version Manager (nvm)](https://github.com/creationix/nvm)
-
-Setup
------
-
-This project's environment can be setup through asdf+npm, run the following commands:
+Make sure to install the dependencies:
 
 ```bash
-asdf install
-npm install
+# npm (--legacy-peer-deps is needed for pinia)
+npm install --legacy-peer-deps
 ```
+
+## Development Server
+
+Start the development server on `http://localhost:3000`
+
+```bash
+npm run dev
+```
+
+## Production
+
+Build the application for production (this project only uses static pages):
+
+```bash
+npm run generate
+```
+
+Locally preview production build:
+
+```bash
+docker run --name test --rm -p 80:80 -v $(pwd)/dist:/usr/share/nginx/html/:ro nginx
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
