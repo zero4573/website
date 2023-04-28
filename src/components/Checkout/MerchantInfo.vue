@@ -5,7 +5,13 @@ import { useGlobalStore } from '~/stores/global';
 const checkoutStore = useCheckoutStore()
 const globalStore = useGlobalStore()
 
-const { checkoutHasError, checkoutPaymentResponse, checkoutShowModal, tokenizedCard, cardHolderFullName } = storeToRefs(checkoutStore)
+const {
+  checkoutHasError,
+  checkoutPaymentResponse,
+  checkoutShowModal,
+  tokenizedCard,
+  cardHolderFullName
+} = storeToRefs(checkoutStore)
 const { isLoading } = storeToRefs(globalStore)
 
 const merchantId = ref(undefined)

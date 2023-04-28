@@ -2,9 +2,7 @@ export default function useBambora({
   cardNumberElementId, isCardNumberComplete, cardNumberError,
   cvvElementId, isCVVComplete, cvvError,
   expiryElementId, isExpiryComplete, expiryError,
-  tokenizedCard, tokenizationError,
   cardBrandSVG,
-  isLoading,
 }) {
   const customCheckoutController = {
     init: function () {
@@ -87,27 +85,8 @@ export default function useBambora({
         }
       });
     },
-    onSubmit: function () {
+    onSubmit: function (callback) {
       var self = this;
-
-      console.log('checkout.onSubmit()');
-      tokenizedCard.value = undefined;
-      tokenizationError.value = undefined;
-
-      isLoading.value = true;
-      var callback = function (result) {
-        console.log('token result : ' + JSON.stringify(result));
-
-        if (result.error) {
-          tokenizationError.value = `Error creating token: ${JSON.stringify(result.error, null, 4)}`
-        } else {
-          tokenizedCard.value = result.token;
-        }
-
-        isLoading.value = false;
-      };
-
-      console.log('checkout.createToken()');
       this.customCheckout.createToken(callback);
     },
   };

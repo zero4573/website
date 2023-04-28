@@ -3,6 +3,8 @@ import { useScriptTag } from '@vueuse/core'
 import { useCheckoutStore } from '~/stores/checkout';
 import { useGlobalStore } from '~/stores/global';
 
+const emptyCardHolderNameErrorMsg = "Name cannot be empty"
+
 const checkoutStore = useCheckoutStore()
 const globalStore = useGlobalStore()
 
@@ -28,11 +30,46 @@ useScriptTag('https://libs.na.bambora.com/customcheckout/1/customcheckout.js', (
     isCardNumberComplete, cardNumberError,
     isCVVComplete, cvvError,
     isExpiryComplete, expiryError,
-    tokenizedCard, tokenizationError,
     cardBrandSVG,
-    isLoading,
   });
 });
+
+const cardHolderNameError = ref(undefined);
+const isCardHolderNameComplete = ref(false);
+function checkCardHolderName() {
+  if (cardHolderFullName.value && cardHolderFullName.value !== "") {
+    cardHolderNameError.value = undefined;
+    isCardHolderNameComplete.value = true;
+  } else {
+    cardHolderNameError.value = emptyCardHolderNameErrorMsg;
+    isCardHolderNameComplete.value = false;
+  }
+}
+
+function onSubmit() {
+  console.log('checkout.onSubmit()');
+  if (!cardHolderFullName.value || cardHolderFullName.value === "") {
+    isCardHolderNameComplete.value = true;
+    cardHolderNameError.value = emptyCardHolderNameErrorMsg;
+  }
+
+  isLoading.value = true;
+  tokenizedCard.value = undefined;
+  tokenizationError.value = undefined;
+  customCheckoutController.value.onSubmit((result) => {
+    console.log('token result : ' + JSON.stringify(result));
+
+    if (result.error) {
+      tokenizationError.value = `Error creating token: ${JSON.stringify(result.error, null, 4)}`
+    } else {
+      tokenizedCard.value = result.token;
+    }
+
+    console.log('checkout.createToken()');
+    isLoading.value = false;
+  });
+
+}
 
 </script>
 
@@ -46,7 +83,10 @@ useScriptTag('https://libs.na.bambora.com/customcheckout/1/customcheckout.js', (
         <label for="fullname" class="block text-sm font-medium leading-6 text-gray-900">Full Name</label>
         <div class="mt-2">
           <input style="outline: none;" type="text" id="fullname" v-model="cardHolderFullName"
+            v-on:blur="checkCardHolderName"
+            @input="checkCardHolderName"
             class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 text-sm leading-6" />
+          <p v-if="cardHolderNameError" class="text-red-500 text-xs italic">{{ cardHolderNameError }}</p>
         </div>
       </div>
 
@@ -87,8 +127,8 @@ useScriptTag('https://libs.na.bambora.com/customcheckout/1/customcheckout.js', (
       <div class="col-span-6">
         <button type="button"
           class="flex items-center rounded bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white"
-          :disabled="!customCheckoutController || !isCardNumberComplete || !isCVVComplete || !isExpiryComplete"
-          v-on:click="customCheckoutController.onSubmit"
+          :disabled="!customCheckoutController || !isCardHolderNameComplete || !isCardNumberComplete || !isCVVComplete || !isExpiryComplete"
+          v-on:click="onSubmit"
         >
           <svg v-if="cardBrandSVG !== undefined" viewBox="0 0 30 24" class="mr-3 h-5 w-5">
             <image :xlink:href="cardBrandSVG" width="30" height="24" />
