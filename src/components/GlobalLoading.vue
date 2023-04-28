@@ -2,13 +2,10 @@
 import { useGlobalStore } from '~/stores/global'
 
 const globalStore = useGlobalStore()
-const isLoading = computed(() => {
-  return globalStore.isLoading
-})
 </script>
 
 <template>
-  <div v-if="isLoading" class="bg-gray-200 w-full min-h-screen flex justify-center items-center">
+  <div v-if="globalStore.isLoading" class="bg-gray-200 w-full min-h-screen flex justify-center items-center">
     <div class="bg-white p-10 shadow-md rounded-xl relative">
       <svg class="w-12 h-12 animate-spin text-indigo-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 4.75V6.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>

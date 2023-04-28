@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
   ],
   pinia: {
-    autoImports: ['defineStore'],
+    autoImports: ['defineStore', 'storeToRefs'],
   },
   headlessui: {
     prefix: 'Headless'

@@ -6,16 +6,11 @@ definePageMeta({
 });
 
 const productsStore = useProductsStore()
-
-const products = computed(() => {
-  return productsStore.products
-})
-
 </script>
 
 <template>
-  <div class="flex justify-around" v-if="products">
-    <div v-for="product in products" :key="product.id">
+  <div class="flex justify-around" v-if="productsStore.products">
+    <div v-for="product in productsStore.products" :key="product.id">
       <ProductsPreview :product="product" />
     </div>
   </div>

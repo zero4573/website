@@ -2,22 +2,18 @@
 import { useCheckoutStore } from '../../stores/checkout'
 
 const checkoutStore = useCheckoutStore();
-const cartItemCount = computed(() => {
-  return checkoutStore.itemCount;
-});
-
 </script>
 <template>
   <nuxt-link
       to="/bambora-shop/checkout"
-      :class="{ disabled: cartItemCount < 1 }"
+      :class="{ disabled: checkoutStore.itemCount < 1 }"
   >
     <div class="relative">
       <div
           class="absolute -top-2 -right-2 bg-indigo-600 text-indigo-100 rounded-full text-xs h-5 w-5 text-center flex justify-center justify-content-center flex-col"
-          v-if="cartItemCount > 0"
+          v-if="checkoutStore.itemCount > 0"
       >
-        {{ cartItemCount }}
+        {{ checkoutStore.itemCount }}
       </div>
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
         <path stroke-linecap="round" stroke-linejoin="round"
