@@ -6,6 +6,13 @@ definePageMeta({
 });
 
 const checkoutStore = useCheckoutStore();
+
+onUnmounted(() => {
+  checkoutStore.setCheckoutHasError(false);
+  checkoutStore.setCheckoutShowModal(false);
+  checkoutStore.setCheckoutPaymentResponse(undefined);
+  checkoutStore.setTokenizedCard(undefined);
+})
 </script>
 
 <template>

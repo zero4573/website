@@ -1,7 +1,7 @@
 <script setup>
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
-import { QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
+import { InformationCircleIcon } from '@heroicons/vue/24/solid'
 
 const open = ref(false)
 
@@ -12,7 +12,7 @@ function toggleModal() {
 
 <template>
   <button class="ml-1 rounded-full" v-on:click="toggleModal">
-    <QuestionMarkCircleIcon class="h-6 w-6 text-blue-600" />
+    <InformationCircleIcon class="h-6 w-6 text-blue-600" />
   </button>
 
   <TransitionRoot as="template" :show="open">
@@ -37,14 +37,14 @@ function toggleModal() {
                     class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
                     <ExclamationTriangleIcon class="h-6 w-6 text-yellow-500" aria-hidden="true" />
                   </div>
-                  <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Server side request</DialogTitle>
+                  <div class="mt-3 sm:ml-4 sm:mt-0 text-left">
+                    <DialogTitle as="h3" class="text-center sm:text-left text-base font-semibold leading-6 text-gray-900">Server side request</DialogTitle>
                     <div class="mt-2">
-                      <p class="mb-1">
+                      <p class="mb-2">
                         The token retrieved in the previous section should be sent to a server, which will use the merchant id/passcode to complete the transaction using
                         the <a class="text-blue-500" target="_blank" href="https://dev.na.bambora.com/docs/references/payment_APIs/">Bambora Payment API</a>
                       </p>
-                      <p class="mb-1">
+                      <p class="mb-2">
                         For the purposes of this demo, this section can be used to simulate the server-side request, on the client side.
                         This should NOT be done in production as it will expose your merchant id/passcode.
                       </p>
@@ -52,7 +52,7 @@ function toggleModal() {
                   </div>
               </div>
             </div>
-            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+            <div class="bg-gray-100 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
               <button type="button"
                 class="flex items-center rounded bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white"
                 v-on:click="toggleModal">Close</button>

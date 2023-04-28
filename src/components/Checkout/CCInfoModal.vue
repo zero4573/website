@@ -1,7 +1,7 @@
 <script setup>
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
-import { QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
+import { InformationCircleIcon } from '@heroicons/vue/24/solid'
 
 const open = ref(false)
 
@@ -11,7 +11,7 @@ function toggleModal() {
 </script>
 
 <template>
-  <button class="ml-1 rounded-full" v-on:click="toggleModal"><QuestionMarkCircleIcon class="h-6 w-6 text-blue-600"/></button>
+  <button class="ml-1 rounded-full" v-on:click="toggleModal"><InformationCircleIcon class="h-6 w-6 text-blue-600"/></button>
 
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="relative z-10" @close="open = false">
@@ -28,30 +28,25 @@ function toggleModal() {
                   <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
                     <ExclamationTriangleIcon class="h-6 w-6 text-yellow-500" aria-hidden="true" />
                   </div>
-                  <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">For demonstration purposes only</DialogTitle>
+                  <div class="mt-3 sm:ml-4 sm:mt-0 text-left">
+                    <DialogTitle as="h3" class="text-base text-center sm:text-left font-semibold leading-6 text-gray-900">For demonstration purposes only</DialogTitle>
                     <div class="mt-2">
-                      <p class="mb-1">
+                      <p class="mb-2">
                         This checkout page uses the <a class="text-blue-500" target="_blank" href="https://dev.na.bambora.com/docs/guides/custom_checkout/">Bambora's
                           Custom Checkout library</a> to customize the checkout form.
                       </p>
-                      <p class="mb-1">
-                        To continue, you can use the test card:
+                      <p class="mb-2">To continue, you can use the test card:</p>
                         <ul class="list-disc ml-8 my-2">
                           <li>card #: 4030 0000 1000 1234</li>
                           <li>code: 123</li>
                           <li>expiry: 12/99 <span class="text-gray-400">(any date in the future)</span></li>
                         </ul>
-                      </p>
-                      <p>
-                        <p>For a more comprehensive list of test cards, <a class="text-blue-500" target="_blank" href="https://dev.na.bambora.com/docs/references/payment_APIs/test_cards/">see the Bambora test cards page</a>
-                        </p>
-                      </p>
+                      <p class="my-2">For a more comprehensive list of test cards, <a class="text-blue-500" target="_blank" href="https://dev.na.bambora.com/docs/references/payment_APIs/test_cards/">see the Bambora test cards page</a></p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+              <div class="bg-gray-100 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button type="button" class="flex items-center rounded bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white" v-on:click="toggleModal">Close</button>
               </div>
             </DialogPanel>

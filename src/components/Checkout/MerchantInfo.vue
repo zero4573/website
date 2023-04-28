@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useScriptTag } from '@vueuse/core'
 import { useCheckoutStore } from '~/stores/checkout';
 import { useGlobalStore } from '~/stores/global';
 
@@ -8,13 +7,6 @@ const globalStore = useGlobalStore()
 
 const merchantId = ref(undefined)
 const merchantPasscode = ref(undefined)
-
-const hasError = ref(false)
-const paymentResponse = ref(undefined)
-
-const tokenizedCard = computed(() => {
-  return checkoutStore.tokenizedCard
-})
 
 async function submitCCToken() {
   const id = merchantId.value;
@@ -29,6 +21,7 @@ async function submitCCToken() {
   }
 
   globalStore.setIsLoading(true)
+  checkoutStore.toggleCheckoutModal()
   const response = await fetch('https://api.na.bambora.com/v1/payments', {
     method: 'POST',
     cache: "no-cache",
@@ -41,11 +34,11 @@ async function submitCCToken() {
 
   const json = await response.json();
   if (response.status === 200) {
-    hasError.value = false
-    paymentResponse.value = json
+    checkoutStore.setCheckoutHasError(false)
+    checkoutStore.setCheckoutPaymentResponse(json)
   } else {
-    hasError.value = true
-    paymentResponse.value = json
+    checkoutStore.setCheckoutHasError(true)
+    checkoutStore.setCheckoutPaymentResponse(json)
   }
   globalStore.setIsLoading(false)
 }
@@ -63,7 +56,7 @@ async function submitCCToken() {
     <div class="col-span-6">
       <label for="cc-token" class="block text-sm font-medium leading-6 text-gray-900">CC Token</label>
       <div class="mt-2">
-        <input type="text" id="cc-token" :value="tokenizedCard" disabled
+        <input type="text" id="cc-token" :value="checkoutStore.tokenizedCard" disabled
           class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6" />
         </div>
       </div>
@@ -87,18 +80,12 @@ async function submitCCToken() {
     <div class="col-span-6">
       <button type="button"
         class="flex items-center rounded bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white"
-        :disabled="!tokenizedCard"
+        :disabled="!checkoutStore.tokenizedCard"
         v-on:click="submitCCToken">
         Complete Purchase
       </button>
     </div>
   </div>
-
-  <div v-if="paymentResponse"
-    :class="hasError ? 'text-red-500' : 'text-green-500'"
-    class="whitespace-pre col-span-6 bg-gray-200 p-4 mt-8 rounded-md"
-  >{{ paymentResponse }}</div>
-
 </template>
 
 <style scoped></style>

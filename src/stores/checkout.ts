@@ -19,17 +19,26 @@ export const useCheckoutStore = defineStore(
     state: () => (
       {
         items: {} as CartItems,
-        itemCount: 0,
         tokenizedCard: undefined as string | undefined,
+        checkoutShowModal: false,
+        checkoutHasError: false,
+        checkoutPaymentResponse: undefined as string | undefined,
       }
     ),
     getters: {
-      totalBillable: (state) => {
+      totalBillable: (state): string => {
         let sum = 0
         for (const key in state.items) {
           sum = sum + state.items[key].subTotal
         }
         return sum.toFixed(2).toLocaleString()
+      },
+      itemCount: (state): number => {
+        let sum = 0
+        for (const key in state.items) {
+          sum = sum + state.items[key].quantity
+        }
+        return sum
       }
     },
     actions: {
@@ -45,14 +54,12 @@ export const useCheckoutStore = defineStore(
           }
         }
 
-        this.itemCount++
         this.items[productId].quantity++
         this.items[productId].subTotal = price * this.items[productId].quantity
       },
       removeFromCart(cartItemData: CartItemData) {
         const { productId, price } = cartItemData
         if (this.items[productId]) {
-          this.itemCount--
           this.items[productId].quantity--
           this.items[productId].subTotal = price * this.items[productId].quantity
 
@@ -61,10 +68,24 @@ export const useCheckoutStore = defineStore(
           }
         }
       },
-
-      setTokenizedCard(tokenizedCard: string) {
+      clearCart() {
+        this.items = {}
+      },
+      setTokenizedCard(tokenizedCard: string | undefined) {
         this.tokenizedCard = tokenizedCard
-      }
+      },
+      toggleCheckoutModal() {
+        this.checkoutShowModal = !this.checkoutShowModal
+      },
+      setCheckoutShowModal(showModal: boolean) {
+        this.checkoutShowModal = showModal
+      },
+      setCheckoutHasError(hasError: boolean) {
+        this.checkoutHasError = hasError
+      },
+      setCheckoutPaymentResponse(paymentResponse: string | undefined) {
+        this.checkoutPaymentResponse = paymentResponse
+      },
     },
   }
 )
