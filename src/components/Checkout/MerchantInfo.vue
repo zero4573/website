@@ -21,7 +21,6 @@ async function submitCCToken() {
   }
 
   globalStore.setIsLoading(true)
-  checkoutStore.toggleCheckoutModal()
   const response = await fetch('https://api.na.bambora.com/v1/payments', {
     method: 'POST',
     cache: "no-cache",
@@ -41,6 +40,7 @@ async function submitCCToken() {
     checkoutStore.setCheckoutPaymentResponse(json)
   }
   globalStore.setIsLoading(false)
+  checkoutStore.toggleCheckoutModal()
 }
 
 </script>
