@@ -6,6 +6,8 @@ import { useGlobalStore } from '~/stores/global';
 const checkoutStore = useCheckoutStore()
 const globalStore = useGlobalStore()
 
+const { cardHolderFullName } = storeToRefs(checkoutStore)
+
 const cardNumberError = ref(undefined);
 const isCardNumberComplete = ref(false);
 
@@ -40,10 +42,18 @@ useScriptTag('https://libs.na.bambora.com/customcheckout/1/customcheckout.js', (
     </div>
     <div class="grid grid-cols-1 gap-x-6 gap-y-8 grid-cols-6">
       <div class="col-span-6">
+        <label for="fullname" class="block text-sm font-medium leading-6 text-gray-900">Full Name</label>
+        <div class="mt-2">
+          <input style="outline: none;" type="text" id="fullname" v-model="cardHolderFullName"
+            class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 text-sm leading-6" />
+        </div>
+      </div>
+
+      <div class="col-span-6">
         <label for="card-number" class="block text-sm font-medium leading-6 text-gray-900">Card Number</label>
         <div class="mt-2">
           <div id="card-number"
-            class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6">
+            class="h-9 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 text-sm leading-6">
           </div>
           <p v-if="cardNumberError" class="text-red-500 text-xs italic">{{ cardNumberError }}</p>
         </div>
@@ -53,7 +63,7 @@ useScriptTag('https://libs.na.bambora.com/customcheckout/1/customcheckout.js', (
         <label for="card-cvv" class="block text-sm font-medium leading-6 text-gray-900">CVV</label>
         <div class="mt-2">
           <div name="card-cvv" id="card-cvv"
-            class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6">
+            class="h-9 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 text-sm leading-6">
           </div>
           <p v-if="cvvError" class="text-red-500 text-xs italic">{{ cvvError }}</p>
         </div>
@@ -63,7 +73,7 @@ useScriptTag('https://libs.na.bambora.com/customcheckout/1/customcheckout.js', (
         <label for="card-expiry" class="block text-sm font-medium leading-6 text-gray-900">Expiry</label>
         <div class="mt-2">
           <div id="card-expiry"
-            class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6">
+            class="h-9 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 text-sm leading-6 items-center">
           </div>
           <p v-if="expiryError" class="text-red-500 text-xs italic">{{ expiryError }}</p>
         </div>

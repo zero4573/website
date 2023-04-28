@@ -3,15 +3,16 @@ import { useCheckoutStore } from '../../stores/checkout'
 
 definePageMeta({
   layout: "bambora",
-});
+})
 
-const checkoutStore = useCheckoutStore();
+const checkoutStore = useCheckoutStore()
 
 onUnmounted(() => {
-  checkoutStore.setCheckoutHasError(false);
-  checkoutStore.setCheckoutShowModal(false);
-  checkoutStore.setCheckoutPaymentResponse(undefined);
-  checkoutStore.setTokenizedCard(undefined);
+  checkoutStore.setCheckoutHasError(false)
+  checkoutStore.setCheckoutShowModal(false)
+  checkoutStore.setCardHolderFullName(undefined)
+  checkoutStore.setCheckoutPaymentResponse(undefined)
+  checkoutStore.setTokenizedCard(undefined)
 })
 </script>
 

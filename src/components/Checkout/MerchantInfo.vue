@@ -5,6 +5,8 @@ import { useGlobalStore } from '~/stores/global';
 const checkoutStore = useCheckoutStore()
 const globalStore = useGlobalStore()
 
+const { tokenizedCard, cardHolderFullName } = storeToRefs(checkoutStore)
+
 const merchantId = ref(undefined)
 const merchantPasscode = ref(undefined)
 
@@ -16,10 +18,18 @@ async function submitCCToken() {
   console.log("submitCCToken()");
 
   const body = {
-    payment_method: 'token',
     amount: checkoutStore.totalBillable,
+    payment_method: 'token',
+    token: {
+      name: cardHolderFullName.value,
+      code: tokenizedCard.value,
+      completed: true,
+    }
   }
 
+  console.log(`cardholder name: ${cardHolderFullName.value}`)
+  console.log(`tokenized card: ${tokenizedCard.value}`)
+  console.log(`encoded passcode: ${base64EncodedPasscode}`)
   globalStore.setIsLoading(true)
   const response = await fetch('https://api.na.bambora.com/v1/payments', {
     method: 'POST',
@@ -56,24 +66,24 @@ async function submitCCToken() {
     <div class="col-span-6">
       <label for="cc-token" class="block text-sm font-medium leading-6 text-gray-900">CC Token</label>
       <div class="mt-2">
-        <input type="text" id="cc-token" :value="checkoutStore.tokenizedCard" disabled
-          class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6" />
+        <input style="outline: none;" type="text" id="cc-token" :value="checkoutStore.tokenizedCard" disabled
+          class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 text-sm leading-6" />
         </div>
       </div>
 
     <div class="col-span-6">
       <label for="merchant-id" class="block text-sm font-medium leading-6 text-gray-900">Merchant Id</label>
       <div class="mt-2">
-        <input type="text" id="merchant-id" v-model="merchantId"
-          class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6" />
+        <input style="outline: none;" type="text" id="merchant-id" v-model="merchantId"
+          class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 text-sm leading-6" />
       </div>
     </div>
 
     <div class="col-span-6">
       <label for="merchant-passcode" class="block text-sm font-medium leading-6 text-gray-900">Merchant Passcode</label>
       <div class="mt-2">
-        <input type="text" id="merchant-passcode" v-model="merchantPasscode"
-          class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6" />
+        <input style="outline: none;" type="text" id="merchant-passcode" v-model="merchantPasscode"
+          class="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 text-sm leading-6" />
       </div>
     </div>
 

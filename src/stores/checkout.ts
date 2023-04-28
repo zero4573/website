@@ -19,6 +19,7 @@ export const useCheckoutStore = defineStore(
     state: () => (
       {
         items: {} as CartItems,
+        cardHolderFullName: undefined as string | undefined,
         tokenizedCard: undefined as string | undefined,
         checkoutShowModal: false,
         checkoutHasError: false,
@@ -73,6 +74,9 @@ export const useCheckoutStore = defineStore(
       },
       setTokenizedCard(tokenizedCard: string | undefined) {
         this.tokenizedCard = tokenizedCard
+      },
+      setCardHolderFullName(fullName: string | undefined) {
+        this.cardHolderFullName = fullName
       },
       toggleCheckoutModal() {
         this.checkoutShowModal = !this.checkoutShowModal
