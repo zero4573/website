@@ -2,7 +2,7 @@
 import { useProductsStore } from '../../stores/products'
 
 definePageMeta({
-  layout: "bambora",
+  layout: "shop",
 })
 
 const productsStore = useProductsStore()

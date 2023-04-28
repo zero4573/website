@@ -2,23 +2,24 @@
 import { useCheckoutStore } from '../../stores/checkout'
 
 definePageMeta({
-  layout: "bambora",
+  layout: "shop",
 })
 
 const checkoutStore = useCheckoutStore()
+const { checkoutHasError, checkoutPaymentResponse, checkoutShowModal, cardHolderFullName, tokenizedCard } = storeToRefs(checkoutStore)
 
 onUnmounted(() => {
-  checkoutStore.setCheckoutHasError(false)
-  checkoutStore.setCheckoutShowModal(false)
-  checkoutStore.setCardHolderFullName(undefined)
-  checkoutStore.setCheckoutPaymentResponse(undefined)
-  checkoutStore.setTokenizedCard(undefined)
+  checkoutHasError.value = false
+  checkoutShowModal.value = false
+  cardHolderFullName.value = undefined
+  checkoutPaymentResponse.value = undefined
+  tokenizedCard.value = undefined
 })
 </script>
 
 <template>
   <Head>
-    <Title>Cart - Bambora Demo Shop</Title>
+    <Title>Cart - Consultant Demo Shop</Title>
   </Head>
 
   <CheckoutMerchantResponseModal />

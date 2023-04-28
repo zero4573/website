@@ -31,9 +31,6 @@ export const useGlobalStore = defineStore(
 
         localStorage.theme = this.theme
       },
-      setIsLoading(isLoading: boolean) {
-        this.isLoading = isLoading
-      }
     },
   }
 )

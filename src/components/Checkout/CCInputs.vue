@@ -6,7 +6,8 @@ import { useGlobalStore } from '~/stores/global';
 const checkoutStore = useCheckoutStore()
 const globalStore = useGlobalStore()
 
-const { cardHolderFullName } = storeToRefs(checkoutStore)
+const { isLoading } = storeToRefs(globalStore)
+const { cardHolderFullName, tokenizedCard } = storeToRefs(checkoutStore)
 
 const cardNumberError = ref(undefined);
 const isCardNumberComplete = ref(false);
@@ -27,9 +28,9 @@ useScriptTag('https://libs.na.bambora.com/customcheckout/1/customcheckout.js', (
     isCardNumberComplete, cardNumberError,
     isCVVComplete, cvvError,
     isExpiryComplete, expiryError,
-    setTokenizedCard: checkoutStore.setTokenizedCard, tokenizationError,
+    tokenizedCard, tokenizationError,
     cardBrandSVG,
-    setIsLoading: globalStore.setIsLoading,
+    isLoading,
   });
 });
 

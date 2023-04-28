@@ -12,14 +12,10 @@ export const useProductsStore = defineStore(
   {
     state: () => (
       {
-        products: [] as Product[],
+        products: products as Product[],
       }
     ),
     getters: {},
-    actions: {
-      async retrieveProducts() {
-        this.products = products
-      }
-    },
+    actions: {},
   }
 )

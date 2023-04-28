@@ -72,23 +72,8 @@ export const useCheckoutStore = defineStore(
       clearCart() {
         this.items = {}
       },
-      setTokenizedCard(tokenizedCard: string | undefined) {
-        this.tokenizedCard = tokenizedCard
-      },
-      setCardHolderFullName(fullName: string | undefined) {
-        this.cardHolderFullName = fullName
-      },
       toggleCheckoutModal() {
         this.checkoutShowModal = !this.checkoutShowModal
-      },
-      setCheckoutShowModal(showModal: boolean) {
-        this.checkoutShowModal = showModal
-      },
-      setCheckoutHasError(hasError: boolean) {
-        this.checkoutHasError = hasError
-      },
-      setCheckoutPaymentResponse(paymentResponse: string | undefined) {
-        this.checkoutPaymentResponse = paymentResponse
       },
     },
   }

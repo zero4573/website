@@ -5,7 +5,7 @@ const checkoutStore = useCheckoutStore();
 </script>
 <template>
   <nuxt-link
-      to="/bambora-shop/checkout"
+      to="/custom-shop/checkout"
       :class="{ disabled: checkoutStore.itemCount < 1 }"
   >
     <div class="relative">

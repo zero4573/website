@@ -5,12 +5,15 @@ import { useGlobalStore } from '~/stores/global';
 const checkoutStore = useCheckoutStore()
 const globalStore = useGlobalStore()
 
-const { tokenizedCard, cardHolderFullName } = storeToRefs(checkoutStore)
+const { checkoutHasError, checkoutPaymentResponse, checkoutShowModal, tokenizedCard, cardHolderFullName } = storeToRefs(checkoutStore)
+const { isLoading } = storeToRefs(globalStore)
 
 const merchantId = ref(undefined)
 const merchantPasscode = ref(undefined)
 
 async function submitCCToken() {
+  isLoading.value = true
+
   const id = merchantId.value;
   const passcode = merchantPasscode.value;
   const base64EncodedPasscode = window.btoa(`${id}:${passcode}`);
@@ -30,8 +33,8 @@ async function submitCCToken() {
   console.log(`cardholder name: ${cardHolderFullName.value}`)
   console.log(`tokenized card: ${tokenizedCard.value}`)
   console.log(`encoded passcode: ${base64EncodedPasscode}`)
-  globalStore.setIsLoading(true)
-  const response = await fetch('https://api.na.bambora.com/v1/payments', {
+
+  fetch('https://api.na.bambora.com/v1/payments', {
     method: 'POST',
     cache: "no-cache",
     headers: {
@@ -39,18 +42,23 @@ async function submitCCToken() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
+  }).then(async (response) => {
+    const json = await response.json();
+    if (response.status === 200) {
+      checkoutHasError.value = false
+      checkoutPaymentResponse.value = json
+    } else {
+      checkoutHasError.value = true
+      checkoutPaymentResponse.value = json
+    }
+  }).catch((e) => {
+    console.log(`failed to make payment request: ${e}`)
+    checkoutHasError.value = true
+    checkoutPaymentResponse.value = e
+  }).finally(() => {
+    isLoading.value = false
+    checkoutShowModal.value = true
   });
-
-  const json = await response.json();
-  if (response.status === 200) {
-    checkoutStore.setCheckoutHasError(false)
-    checkoutStore.setCheckoutPaymentResponse(json)
-  } else {
-    checkoutStore.setCheckoutHasError(true)
-    checkoutStore.setCheckoutPaymentResponse(json)
-  }
-  globalStore.setIsLoading(false)
-  checkoutStore.toggleCheckoutModal()
 }
 
 </script>
