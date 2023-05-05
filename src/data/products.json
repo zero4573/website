@@ -1,14 +1,32 @@
 [
   {
     "id": 1,
-    "name": "Sunglasses",
-    "price": 10.99,
-    "image": "sunglasses.jpg"
+    "name": "Nevada",
+    "price": 59.25,
+    "image": "nevada.jpg"
   },
   {
     "id": 2,
-    "name": "Shoes",
-    "price": 99.01,
-    "image": "shoes.jpg"
+    "name": "Calypso",
+    "price": 69.99,
+    "image": "calypso.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Hinode",
+    "price": 87.50,
+    "image": "hinode.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Luminance",
+    "price": 99.99,
+    "image": "luminance.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Millenium",
+    "price": 27.50,
+    "image": "millenium.jpg"
   }
 ]

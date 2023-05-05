@@ -27,7 +27,7 @@ onUnmounted(() => {
     <div class="flex justify-center lg:col-span-1 mb-10">
       <div class="w-96">
         <div class="flex justify-between border-b p-2 font-medium bg-gray-100 items-center ">
-          <div class="w-1/3">Product Name</div>
+          <div class="w-1/3">Product</div>
           <div class="w-1/3 text-center">Quantity</div>
           <div class="w-1/3">Sub total</div>
         </div>
