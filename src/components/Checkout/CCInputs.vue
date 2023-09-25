@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useScriptTag } from '@vueuse/core'
 import { useCheckoutStore } from '~/stores/checkout';
 import { useGlobalStore } from '~/stores/global';
@@ -20,12 +20,12 @@ const isCVVComplete = ref(false);
 const expiryError = ref(undefined);
 const isExpiryComplete = ref(false);
 
-const tokenizationError = ref(undefined);
-
+const tokenizationError = ref<undefined | string>(undefined);
 const cardBrandSVG = ref(undefined);
 
-const customCheckoutController = ref(undefined);
+const customCheckoutController = ref<any>(undefined);
 useScriptTag('https://libs.na.bambora.com/customcheckout/1/customcheckout.js', () => {
+  // @ts-ignore
   customCheckoutController.value = useBambora({
     isCardNumberComplete, cardNumberError,
     isCVVComplete, cvvError,
@@ -34,7 +34,7 @@ useScriptTag('https://libs.na.bambora.com/customcheckout/1/customcheckout.js', (
   });
 });
 
-const cardHolderNameError = ref(undefined);
+const cardHolderNameError = ref<undefined | string>(undefined);
 const isCardHolderNameComplete = ref(false);
 function checkCardHolderName() {
   if (cardHolderFullName.value && cardHolderFullName.value !== "") {
@@ -56,7 +56,7 @@ function onSubmit() {
   isLoading.value = true;
   tokenizedCard.value = undefined;
   tokenizationError.value = undefined;
-  customCheckoutController.value.onSubmit((result) => {
+  customCheckoutController.value?.onSubmit((result: any) => {
     console.log('token result : ' + JSON.stringify(result));
 
     if (result.error) {

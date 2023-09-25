@@ -35,12 +35,44 @@ function toggleModal() {
                         This checkout page uses the <a class="text-blue-500" target="_blank" href="https://dev.na.bambora.com/docs/guides/custom_checkout/">Bambora's
                           Custom Checkout library</a> to customize the checkout form.
                       </p>
-                      <p class="mb-2">To continue, you can use the test card:</p>
-                        <ul class="list-disc ml-8 my-2">
-                          <li>card #: 4030 0000 1000 1234</li>
-                          <li>code: 123</li>
-                          <li>expiry: 12/99 <span class="text-gray-400">(any date in the future)</span></li>
-                        </ul>
+                      <p class="mb-2">To continue, you can use the test card for 3ds flows:</p>
+                      <div class="pl-8 my-4">
+                        <table class="table-auto">
+                          <tbody>
+                            <tr>
+                              <th class="pr-4">Card #</th>
+                              <td>4123 4501 3100 3312</td>
+                            </tr>
+                            <tr>
+                              <th class="pr-4">Code</th>
+                              <td>123</td>
+                            </tr>
+                            <tr>
+                              <th class="pr-4">Expiry</th>
+                              <td>12/99</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <p class="mb-2">and, this test card for non-3ds flows:</p>
+                      <div class="pl-8 my-4">
+                        <table class="table-auto">
+                          <tbody>
+                            <tr>
+                              <th class="pr-4">Card #</th>
+                              <td>4030 0000 1000 1234</td>
+                            </tr>
+                            <tr>
+                              <th class="pr-4">Code</th>
+                              <td>123</td>
+                            </tr>
+                            <tr>
+                              <th class="pr-4">Expiry</th>
+                              <td>12/99</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <p class="my-2">For a more comprehensive list of test cards, <a class="text-blue-500" target="_blank" href="https://dev.na.bambora.com/docs/references/payment_APIs/test_cards/">see the Bambora test cards page</a></p>
                     </div>
                   </div>

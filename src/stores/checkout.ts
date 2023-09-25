@@ -24,6 +24,9 @@ export const useCheckoutStore = defineStore(
         checkoutShowModal: false,
         checkoutHasError: false,
         checkoutPaymentResponse: undefined as string | undefined,
+        has3ds: false as boolean,
+        merchantId: "" as string,
+        merchantPasscode: "" as string,      
       }
     ),
     getters: {
@@ -75,6 +78,16 @@ export const useCheckoutStore = defineStore(
       toggleCheckoutModal() {
         this.checkoutShowModal = !this.checkoutShowModal
       },
+    },
+    persist: {
+      storage: persistedState.localStorage,
+      paths: [
+        "items",
+        "tokenizedCard",
+        "has3ds",
+        "merchantId",
+        "merchantPasscode",  
+      ],
     },
   }
 )

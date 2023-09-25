@@ -10,4 +10,5 @@ export default {
     extend: {},
   },
   darkMode: "light",
+  plugins: [require('daisyui')],
 }
