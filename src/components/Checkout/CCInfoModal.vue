@@ -41,7 +41,7 @@ function toggleModal() {
                           <tbody>
                             <tr>
                               <th class="pr-4">Card #</th>
-                              <td>4123 4501 3100 3312</td>
+                              <td>4874 9706 8667 2022</td>
                             </tr>
                             <tr>
                               <th class="pr-4">Code</th>

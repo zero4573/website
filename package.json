@@ -22,7 +22,6 @@
     "@pinia-plugin-persistedstate/nuxt": "^1.1.2",
     "@pinia/nuxt": "^0.4.9",
     "@vueuse/core": "^10.1.0",
-    "daisyui": "^3.7.7",
     "nuxt-headlessui": "^1.1.4",
     "pinia": "^2.0.35"
   },

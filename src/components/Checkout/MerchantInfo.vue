@@ -49,10 +49,7 @@ async function submitCCToken() {
   try {
     const ipResp = await fetch('https://api.ipify.org?format=json')
     if (ipResp.status !== 200) {
-      console.log(`failed to retrieve client's ip, repsonse: ${ipResp}`)
-      checkoutHasError.value = true
-      checkoutPaymentResponse.value = `${ipResp}`
-      return
+      throw new Error(`repsonse: ${ipResp}`)
     }
 
     const jsonResp = await ipResp.json()
@@ -61,23 +58,27 @@ async function submitCCToken() {
     console.log(`failed to retrieve client's ip: ${e}`)
     checkoutHasError.value = true
     checkoutPaymentResponse.value = `${e}`
+    isLoading.value = false
+    checkoutShowModal.value = true
     return
   }
 
   const body = {
     amount: checkoutStore.totalBillable,
     payment_method: 'token',
+    customer_ip: ip,
+    term_url: `${window.location.origin}${window.location.pathname}/3ds_callback`,
     token: {
       name: cardHolderFullName.value,
       code: tokenizedCard.value,
       complete: true,
-      "customer_ip": ip,
       "3d_secure": secure3ds,
     }
   }
 
   console.log(body)
-  fetch('https://api.na.bambora.com/v1/payments', {
+  try {
+    const resp = await fetch('https://api.na.bambora.com/v1/payments', {
     method: 'POST',
     cache: "no-cache",
     headers: {
@@ -85,23 +86,46 @@ async function submitCCToken() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
-  }).then(async (response) => {
-    const json = await response.json();
-    if (response.status === 200) {
+    })
+    
+    const json = await resp.json()
+    if (resp.status === 200) {
+      // frictionless
       checkoutHasError.value = false
       checkoutPaymentResponse.value = json
-    } else {
-      checkoutHasError.value = true
+      isLoading.value = false
+      checkoutShowModal.value = true
+      return
+    } if (resp.status === 302) {
+      // 3ds challenge
+      const link = json.links.find((link: any) => link.rel === "continue")
+      window.localStorage.setItem("3ds_url", link.href)
+
+      const placeholder = document.getElementById("3ds-placeholder")
+      if (placeholder) {
+        placeholder.innerHTML = decodeURIComponent(json.contents).replaceAll('+', ' ')
+        // @ts-ignore
+        document.getElementById('challengeform').submit();
+        return
+      }
+
+      checkoutHasError.value = false
       checkoutPaymentResponse.value = json
-    }
-  }).catch((e) => {
-    console.log(`failed to make payment request: ${e}`)
+      isLoading.value = false
+      checkoutShowModal.value = true
+      throw new Error("Missing 3ds-placeholder element")
+    } 
+    
+    // all others are failures
     checkoutHasError.value = true
-    checkoutPaymentResponse.value = e
-  }).finally(() => {
+    checkoutPaymentResponse.value = json
     isLoading.value = false
     checkoutShowModal.value = true
-  });
+  } catch (e) {
+    console.log(`failed to make payment request: ${e}`)
+    checkoutHasError.value = true
+    checkoutPaymentResponse.value = `${e}`
+  }
 }
 </script>
 
@@ -154,6 +178,7 @@ async function submitCCToken() {
         Complete Purchase
       </button>
     </div>
+    <div id="3ds-placeholder"></div>
   </div>
 </template>
 

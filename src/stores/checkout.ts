@@ -83,7 +83,6 @@ export const useCheckoutStore = defineStore(
       storage: persistedState.localStorage,
       paths: [
         "items",
-        "tokenizedCard",
         "has3ds",
         "merchantId",
         "merchantPasscode",  

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCheckoutStore } from '../../stores/checkout'
+import { useCheckoutStore } from '../../../stores/checkout'
 
 definePageMeta({
   layout: "shop",

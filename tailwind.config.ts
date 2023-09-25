@@ -9,6 +9,5 @@ export default {
   theme: {
     extend: {},
   },
-  darkMode: "light",
-  plugins: [require('daisyui')],
+  darkMode: "light"
 }
