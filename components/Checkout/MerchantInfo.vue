@@ -23,7 +23,7 @@ async function submitCCToken() {
   isLoading.value = true
   const base64EncodedPasscode = window.btoa(`${merchantId.value}:${merchantPasscode.value}`)
 
-  console.log("submitCCToken()")
+  const config = useAppConfig();
 
   let secure3ds = null
   if (has3ds) {
@@ -63,11 +63,12 @@ async function submitCCToken() {
     return
   }
 
+  const redirectUrl = encodeURIComponent(`${window.location.origin}${window.location.pathname}/3ds_callback`)
   const body = {
     amount: checkoutStore.totalBillable,
     payment_method: 'token',
     customer_ip: ip,
-    term_url: `${window.location.origin}${window.location.pathname}/3ds_callback`,
+    term_url: `${window.location.origin}${window.location.pathname}/3ds_callback?${redirectUrl}`,
     token: {
       name: cardHolderFullName.value,
       code: tokenizedCard.value,
