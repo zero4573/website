@@ -4,6 +4,11 @@ import { useGlobalStore } from '~/stores/global';
 
 const checkoutStore = useCheckoutStore()
 const globalStore = useGlobalStore()
+const config = useAppConfig();
+
+const route = useRoute()
+const continueUrl = window.localStorage.getItem("3ds_url")
+const processorInfo = parseQuery(route.query.body);
 
 const {
   checkoutHasError,
@@ -22,8 +27,6 @@ const { isLoading } = storeToRefs(globalStore)
 async function submitCCToken() {
   isLoading.value = true
   const base64EncodedPasscode = window.btoa(`${merchantId.value}:${merchantPasscode.value}`)
-
-  const config = useAppConfig();
 
   let secure3ds = null
   if (has3ds) {
@@ -63,12 +66,12 @@ async function submitCCToken() {
     return
   }
 
-  const redirectUrl = encodeURIComponent(`${window.location.origin}${window.location.pathname}/3ds_callback`)
+  const redirectUrl = encodeURIComponent(`${window.location.origin}${window.location.pathname}`)
   const body = {
     amount: checkoutStore.totalBillable,
     payment_method: 'token',
     customer_ip: ip,
-    term_url: `${window.location.origin}${window.location.pathname}/3ds_callback?${redirectUrl}`,
+    term_url: `${config.redirectURL}?redirectUrl=${redirectUrl}`,
     token: {
       name: cardHolderFullName.value,
       code: tokenizedCard.value,
@@ -77,7 +80,6 @@ async function submitCCToken() {
     }
   }
 
-  console.log(body)
   try {
     const resp = await fetch('https://api.na.bambora.com/v1/payments', {
     method: 'POST',
@@ -127,6 +129,62 @@ async function submitCCToken() {
     checkoutHasError.value = true
     checkoutPaymentResponse.value = `${e}`
   }
+}
+
+async function processCallback() {
+  isLoading.value = true;
+  const continueUrl = window.localStorage.getItem("3ds_url")
+
+  try {
+    if (!continueUrl) {
+      throw new Error("Missing 3ds_url in local storage");
+    }
+
+    if (!processorInfo) {
+      throw new Error("No callback information detected, this should never happen unless you are calling processCallback standalone without a check for processorInfo");
+    }
+
+    const cres = processorInfo.cres;
+    if (!cres) {
+      throw new Error("Payment processor missing cres on return");
+    }
+
+    const reqBody = {
+      "payment_method": "credit_card", 
+      "card_response": {
+        "cres": cres
+      }
+    }
+
+    const base64EncodedPasscode = window.btoa(`${merchantId.value}:${merchantPasscode.value}`)
+    const resp = await fetch(continueUrl, {
+      method: 'POST',
+      cache: "no-cache",
+      headers: {
+        'Authorization': `Passcode ${base64EncodedPasscode}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(reqBody),
+    })
+
+    if (!resp.ok) {
+      const body = await resp.text(); 
+      throw new Error(`Failed continue call with error code: ${resp.status}\nBody: ${body}`);
+    } 
+    
+    checkoutPaymentResponse.value = await resp.json();
+    checkoutHasError.value = false
+  } catch(e) {
+    checkoutHasError.value = true
+    checkoutPaymentResponse.value = ((<Error>e).message)
+    } finally {
+      isLoading.value = false;
+      checkoutShowModal.value = true
+  }
+}
+
+if (processorInfo !== undefined) {
+  processCallback()
 }
 </script>
 

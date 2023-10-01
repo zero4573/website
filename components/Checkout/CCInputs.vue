@@ -47,7 +47,6 @@ function checkCardHolderName() {
 }
 
 function onSubmit() {
-  console.log('checkout.onSubmit()');
   if (!cardHolderFullName.value || cardHolderFullName.value === "") {
     isCardHolderNameComplete.value = true;
     cardHolderNameError.value = emptyCardHolderNameErrorMsg;
@@ -57,7 +56,6 @@ function onSubmit() {
   tokenizedCard.value = undefined;
   tokenizationError.value = undefined;
   customCheckoutController.value?.onSubmit((result: any) => {
-    console.log('token result : ' + JSON.stringify(result));
 
     if (result.error) {
       tokenizationError.value = `Error creating token: ${JSON.stringify(result.error, null, 4)}`
@@ -65,7 +63,6 @@ function onSubmit() {
       tokenizedCard.value = result.token;
     }
 
-    console.log('checkout.createToken()');
     isLoading.value = false;
   });
 
