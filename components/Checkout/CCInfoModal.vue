@@ -35,7 +35,7 @@ function toggleModal() {
                         This checkout page uses the <a class="text-blue-500" target="_blank" href="https://dev.na.bambora.com/docs/guides/custom_checkout/">Bambora's
                           Custom Checkout library</a> to customize the checkout form.
                       </p>
-                      <p class="mb-2">To continue, you can use the test card for 3ds flows:</p>
+                      <p class="mb-2">To continue, you can use the following test card for 3ds challenge flows:</p>
                       <div class="pl-8 my-4">
                         <table class="table-auto">
                           <tbody>
@@ -54,7 +54,26 @@ function toggleModal() {
                           </tbody>
                         </table>
                       </div>
-                      <p class="mb-2">and, this test card for non-3ds flows:</p>
+                      <p class="mb-2">for a frictionless challenge flow, you can use:</p>
+                      <div class="pl-8 my-4">
+                        <table class="table-auto">
+                          <tbody>
+                            <tr>
+                              <th class="pr-4">Card #</th>
+                              <td>4330 2649 3634 4675</td>
+                            </tr>
+                            <tr>
+                              <th class="pr-4">Code</th>
+                              <td>123</td>
+                            </tr>
+                            <tr>
+                              <th class="pr-4">Expiry</th>
+                              <td>12/99</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <p class="mb-2">finially, if you do not have 3ds enabled, then you can use:</p>
                       <div class="pl-8 my-4">
                         <table class="table-auto">
                           <tbody>
@@ -73,7 +92,7 @@ function toggleModal() {
                           </tbody>
                         </table>
                       </div>
-                      <p class="my-2">For a more comprehensive list of test cards, <a class="text-blue-500" target="_blank" href="https://dev.na.bambora.com/docs/references/payment_APIs/test_cards/">see the Bambora test cards page</a></p>
+                      <p class="my-2">For a more comprehensive list of cards to trigger specific flows see the <a class="text-blue-500" target="_blank" href="https://dev.na.bambora.com/docs/guides/3D_secure_2_0/#test-cards">3ds test cards</a>, or the <a class="text-blue-500" target="_blank" href="https://dev.na.bambora.com/docs/references/payment_APIs/test_cards/">non-3ds test cards</a></p>
                     </div>
                   </div>
                 </div>
